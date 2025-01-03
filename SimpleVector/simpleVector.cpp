@@ -1,5 +1,6 @@
 #include <iostream>
 #include <algorithm>
+#include <initializer_list>
 using namespace std;
 
 template<typename T>
@@ -19,6 +20,22 @@ public:
 
 		data = new T[currentCapacity];
 		memcpy(data, other.data, sizeof(T) * currentSize);
+	}
+	SimpleVector(initializer_list<T> l) {
+		currentSize = l.size();
+		currentCapacity = l.size();
+
+		data = new T[currentCapacity];
+		int i = 0;
+		for (const T* it = l.begin(); it != l.end(); it++) {
+			data[i++] = *it;
+		}
+
+		/*for (int i = 0; i < currentSize; i++) {
+			data[i] = l[i];
+		}*/
+
+		//memcpy(data, l, currentSize);
 	}
 	~SimpleVector() {
 		delete[] data;
@@ -64,7 +81,7 @@ int main() {
 	sv2.push_back(1);
 	sv2.push_back(10);
 	sv2.push_back(8);
-	
+
 	SimpleVector<int> sv3 = sv2;
 
 	sv3.push_back(4);
@@ -77,4 +94,8 @@ int main() {
 	sv3.push_back(8);
 
 	sv3.sortData();
+
+	SimpleVector<int> v4 = { 1,2,3,4,5 };
+
+	return 0;
 }
